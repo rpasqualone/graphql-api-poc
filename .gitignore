@@ -1,0 +1,20 @@
+# OS/IDE files
+.DS_Store
+*#
+*~
+.idea
+
+# Dependencies
+node_modules
+
+# Logs
+*.log
+.node_repl_history
+.node_history
+
+# Build files
+build
+
+# Temporary files
+tmp
+*.sqlite
