@@ -1,11 +1,4 @@
-import express from 'express';
+import root from './root';
+import users from './users';
 
-const router = express.Router();
-
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  //res.render('index', { title: 'Express' });
-	res.send('success');
-});
-
-export default router;
+export default [ root, users ];

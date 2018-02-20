@@ -1,13 +1,20 @@
 import express from 'express';
+import expressGraphQL from 'express-graphql';
 import path from 'path';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 
-import index from './routes/index';
-import users from './routes/users';
+import routes from './routes';
+import schema from './schemas/schema';
 
 const app = express();
+
+// /graphql route bypasses express routing
+app.use('/graphql', expressGraphQL({
+	schema,
+	graphiql: true
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -19,8 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/users', users);
+app.use(...routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
