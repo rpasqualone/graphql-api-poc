@@ -1,4 +1,4 @@
-import { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLSchema, GraphQLList, GraphQLNonNull } from 'graphql';
+import { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLSchema, GraphQLList, GraphQLNonNull, GraphQLInputObjectType } from 'graphql';
 import axios from 'axios';
 
 const CompanyType = new GraphQLObjectType({
@@ -51,18 +51,29 @@ const RootQuery = new GraphQLObjectType({
 	}
 });
 
+// use const mutation = new GraphQLInputObjectType
 const mutation = new GraphQLObjectType({
+
 	name: 'Mutation',
 	fields: {
 		addUser: {
 			type: UserType,
 			args: {
-				firstName: { type: GraphQLNonNull(GraphQLString) },
-				age: { type: GraphQLNonNull(GraphQLInt) },
+				firstName: { type: new GraphQLNonNull(GraphQLString) },
+				age: { type: new GraphQLNonNull(GraphQLInt) },
 				companyId: { type: GraphQLString }
 			},
 			resolve(parentValue, { firstName, age }) {
 				return axios.post('http://localhost:3030/users/', { firstName, age}).then(res => res.data);
+			}
+		},
+		removeUser: {
+			type: UserType,
+			args: {
+				id: { type: new GraphQLNonNull(GraphQLString) }
+			},
+			resolve(parentValue, { id }) {
+				return axios.delete(`http://localhost:3030/users/${ id }`).then(res => {console.log(res); return res.data});
 			}
 		}
 	}
