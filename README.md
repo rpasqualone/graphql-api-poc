@@ -1,4 +1,4 @@
-#GraphQL API Proof of Concept
+# GraphQL API Proof of Concept
 
 ## Goals
 
